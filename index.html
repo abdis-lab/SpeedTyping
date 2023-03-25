@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/3cfd7f0753.js" crossorigin="anonymous"></script>
+    <title>Speed Typing</title>
+</head>
+<body>
+    <button id="settings-btn" class="settings-btn">
+        <i class="fas fa-cog"></i>
+    </button>
+
+    <div class="settings" id="settings">
+        <form action="" id="settings-form">
+            <div>
+                <label for="diffculty">Difficulty</label>
+                <select name="" id="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1>Speed Typer</h1>
+        <small>Type the following:</small>
+
+        <h1 id="word">fjdkf</h1>
+
+        <input type="text" id="text" autocomplete="off" placeholder="Type teh word here...">
+
+        <p class="time-container">
+            Time left: <span id="time">10s</span>
+        </p>
+
+        <p class="score-container">
+            Score: <span id="score">0</span>
+        </p>
+
+        <div id="end-game-container" class="end-game-container">
+
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
