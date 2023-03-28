@@ -9,9 +9,11 @@ const settingsForm = document.getElementById('settings-form');
 const difficultySelect = document.getElementById('difficulty');
 const counterToStartGame = document.getElementById('counterToStartGame');
 
+
 let counter = 6;
 // Count Down for the user to start playing
 window.addEventListener("DOMContentLoaded", () => {
+   counterToStartGame.classList.add('scale')
    text.style.display = 'none'
    const countersInterval = setInterval(() => {
         
@@ -21,7 +23,7 @@ window.addEventListener("DOMContentLoaded", () => {
             clearInterval(countersInterval);
             text.style.display = 'inline-block'
             text.focus();
-
+            counterToStartGame.classList.remove('scale');
         }
         counterToStartGame.textContent = `Ready in ${counter}`; 
     }, 1000);
@@ -116,9 +118,11 @@ function updateScore(){
 
 //Game over, show end screens
 function gameOver(){
+    let greatJob = 'Wow Nice Job!!';
+    let betterLuck = 'not so great try again.';
     endgameEl.innerHTML = `
         <h1>Time ran out!</h1>
-        <P>Your final score is ${score}</p>
+        <P>Your final score is ${score}, ${score > 10 ? greatJob : betterLuck}</p>
         <button class="relode" onclick="location.reload()">Reload</button>
     `;
     endgameEl.style.display = 'flex';
@@ -146,6 +150,9 @@ function updateTime(){
         //End game 
         gameOver();
     }
+    if(time <= 5){
+        timeEl.style.color = 'red'
+    }
 }
 addWordToDOm();
 
@@ -165,6 +172,7 @@ text.addEventListener('input', e => {
 
             if(difficulty === 'hard'){
                 time += 2;
+                
             }else if (difficulty === 'medium'){
                 time += 3;
             }else {
@@ -183,6 +191,6 @@ settingsBtn.addEventListener('click', () => settings.classList.toggle('hide'));
 settingsForm.addEventListener('change', e => {
     difficulty = e.target.value;
 
-        localStorage.setItem('difficulty', difficulty)
-    console.log(difficulty)
+    localStorage.setItem('difficulty', difficulty)
+    
 })
