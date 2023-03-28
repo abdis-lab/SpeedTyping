@@ -12,11 +12,16 @@ const counterToStartGame = document.getElementById('counterToStartGame');
 let counter = 6;
 // Count Down for the user to start playing
 window.addEventListener("DOMContentLoaded", () => {
-   
+   text.style.display = 'none'
    const countersInterval = setInterval(() => {
-        counter--;
+        
+         counter--;
+        
         if (counter === 0){
             clearInterval(countersInterval);
+            text.style.display = 'inline-block'
+            text.focus();
+
         }
         counterToStartGame.textContent = `Ready in ${counter}`; 
     }, 1000);
@@ -24,8 +29,9 @@ window.addEventListener("DOMContentLoaded", () => {
 })
 
    
+//Random word API
 
-    
+
 
 
 // List of words for Game
@@ -83,8 +89,7 @@ let difficulty = localStorage.getItem('difficulty') !== null ? localStorage.getI
 //set difficulty select value
 difficultySelect.value = localStorage.getItem('difficulty') !== null ? localStorage.getItem('difficulty') : 'medium';
 
-//Focus on text on start
-text.focus();
+
 
 //Start counting down
 const timeInterval = setInterval(updateTime, 1000);
@@ -93,7 +98,6 @@ const timeInterval = setInterval(updateTime, 1000);
 // Genarate Random word from array
 function getRandomWord(){
     return words[Math.floor(Math.random() * words.length)];
-
 }
 
 // Add word to Dom
@@ -113,13 +117,14 @@ function updateScore(){
 //Game over, show end screens
 function gameOver(){
     endgameEl.innerHTML = `
-        <h1>Time ran out</h1>
+        <h1>Time ran out!</h1>
         <P>Your final score is ${score}</p>
         <button class="relode" onclick="location.reload()">Reload</button>
     `;
     endgameEl.style.display = 'flex';
 
-   
+   text.style.display = 'none';
+   word.style.display = 'none';
 }
 
 
