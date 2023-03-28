@@ -63,7 +63,24 @@ select{
     -webkit-appearance: none;
     -moz-appearance: none;
 }
-
+#settings-form{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5rem;
+}
+.user-image{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    object-position: center;
+}
+.profile{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 .settings{
     position: absolute;
     top: 0;
@@ -89,6 +106,7 @@ option{
     transform: translateY(-100%);
     transition: transform .3s ease-in-out;
 }
+
 
 .container{
     background-color: #e2e8f0;

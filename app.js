@@ -8,11 +8,26 @@ const settings = document.getElementById('settings');
 const settingsForm = document.getElementById('settings-form');
 const difficultySelect = document.getElementById('difficulty');
 const counterToStartGame = document.getElementById('counterToStartGame');
+const userName = document.getElementById('user-name');
 
+function getUserName(){
+    const name = prompt('What is you Name?');
+
+    userName.textContent = name;
+
+    if (name !== '' && name !== null){
+        userName.textContent = name;
+    }else {
+        alert('Enter your name to begin.');
+        getUserName();
+    }
+}
+ getUserName();
 
 let counter = 6;
 // Count Down for the user to start playing
 window.addEventListener("DOMContentLoaded", () => {
+   
    counterToStartGame.classList.add('scale')
    text.style.display = 'none'
    const countersInterval = setInterval(() => {
@@ -152,6 +167,8 @@ function updateTime(){
     }
     if(time <= 5){
         timeEl.style.color = 'red'
+    }else {
+        timeEl.style.color = '';
     }
 }
 addWordToDOm();
