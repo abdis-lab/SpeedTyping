@@ -14,7 +14,6 @@ body{
     min-height: 100vh;
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
 }
 
 button{
@@ -166,6 +165,64 @@ input:focus{
     left: 0;
     width: 100%;
     z-index: 1;
+}
+
+.modal-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: non;
+}
+.modal-content{
+    background-color: #e2e8f0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.modal-content h1, h2{
+    text-align: center;
+}
+.submitModalBtn{
+    border: none;
+    border: 2px solid #0f172a;
+    transition: ease-in-out 500ms;
+}
+.submitModalBtn:hover{
+    background-color: #0f172a;
+    color: white;
+    transition: ease-in-out 500ms;
+}
+.name-content{
+    display: flex;
+    flex-direction: column;
+}
+
+.emoji-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+}
+.emojis{
+    font-size: 2.5rem;
+    cursor: pointer;
+    transition: transform ease-in-out 500ms;
+}
+.emojis:hover{
+    transform: scale(1.3);
+    transition: transform ease-in-out 500ms;
+}
+.output-emoji{
+    font-size: 5rem;
 }
 
 .counter-to-start-game{

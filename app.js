@@ -8,21 +8,52 @@ const settings = document.getElementById('settings');
 const settingsForm = document.getElementById('settings-form');
 const difficultySelect = document.getElementById('difficulty');
 const counterToStartGame = document.getElementById('counterToStartGame');
-const userName = document.getElementById('user-name');
+const userNameInput = document.getElementById('username');
+const avatar = document.querySelectorAll('.emojis')
+const outputEmoji = document.getElementById('output-emoji');
+const modalSubmitBtn = document.getElementById('submitModalBtn');
 
-function getUserName(){
-    const name = prompt('What is you Name?');
 
-    userName.textContent = name;
 
-    if (name !== '' && name !== null){
-        userName.textContent = name;
-    }else {
-        alert('Enter your name to begin.');
-        getUserName();
-    }
+
+//Modal submit Button
+modalSubmitBtn.addEventListener('click', () => {
+    
+
+    
+});
+
+
+
+
+
+//Modal container
+function selectAvatar(){
+    avatar.forEach(avatar => {
+        avatar.addEventListener('click', (e) => {
+            const selectedEmoji = e.target.innerHTML;
+            
+
+            outputEmoji.innerHTML = selectedEmoji;
+            outputEmoji.style.fontSize = '2.5rem'
+            
+        })
+    })
+
+    return selectedEmoji;
+
 }
- getUserName();
+
+
+//Update username
+function getUsername(e){
+    const user = userNameInput.e.target.value;
+
+    console.log(user)
+}
+
+
+
 
 let counter = 6;
 // Count Down for the user to start playing
@@ -210,4 +241,12 @@ settingsForm.addEventListener('change', e => {
 
     localStorage.setItem('difficulty', difficulty)
     
+})
+
+window.addEventListener('click', (e) => {
+    const close = e.target;
+
+    if (!close.classList.contains('.modal-container')){
+        document.querySelector('.modal-container').style.display = 'none';
+    }
 })

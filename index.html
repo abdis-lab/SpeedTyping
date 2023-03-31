@@ -25,7 +25,7 @@
             </div>
             <div class="profile" id="profile-user">
                 <p class="name" id="user-name">Abdi Kadir</p>
-                <img class="user-image" id="user-image" src="/images/pexels-cottonbro-studio-5378700.jpg" alt="">
+                <p id="output-emoji"></p>
             </div>
         </form>
     </div>
@@ -51,6 +51,32 @@
         
     </div>
     <div id="counterToStartGame" class="counter-to-start-game"></div>
+
+    <div class="modal-container">
+        <div class="modal-content">
+            <h1>Pick a Name and Avatar</h1>
+
+            <div class="name-content">
+                <label for="username">Username</label>
+                <input type="text" id="username" maxlength="15" placeholder="Enter your username">
+            </div>
+            <h2>Avatars</h2>
+            <div class="emoji-grid">
+                <span class="emojis">&#128565</span>
+                <span class="emojis">&#128332</span>
+                <span class="emojis">&#128543</span>
+                <span class="emojis">&#128545</span>
+                <span class="emojis">&#128552</span>
+                <span class="emojis">&#128557</span>
+                <span class="emojis">&#128562</span>
+                <span class="emojis">&#128566</span>
+                <span class="emojis">&#128579</span>
+            </div>
+
+            <button class="submitModalBtn" id="submitModalBtn">Submit</button>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
