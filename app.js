@@ -1,4 +1,4 @@
-const word = document.getElementById('word');
+const toMatchWord = document.getElementById('toMatchWord');
 const text = document.getElementById('text');
 const scoreEl = document.getElementById('score');
 const timeEl = document.getElementById('time');
@@ -14,171 +14,126 @@ const outputEmoji = document.getElementById('output-emoji');
 const modalSubmitBtn = document.getElementById('submitModalBtn');
 
 
+let apiWordPromise = null;
+let nextWordPromise = null;
+
+async function getWordsApi(){
+    if (!apiWordPromise){
+        apiWordPromise = fetch('https://random-word-api.herokuapp.com/word')
+                            .then(res => {
+                                if(res.ok){
+                                    return res.json();
+                                }else {
+                                    throw new Error("Error");
+                                }
+                            })
+                            .then(data => {
+                                apiWordPromise = null;
+                                return data
+                            })
+                            .catch(error => {
+                                console.log("Error fetching api: ", error);
+                            });
+    }
+    return apiWordPromise;
+
+    // return fetch('https://random-word-api.herokuapp.com/word')
+    //         .then(res => {
+    //             if(res.ok){
+    //                 return res.json();
+    //             }else {
+    //                 throw new Error("Error")
+    //             }
+    //         })
+    //         .then(data => {
+    //             return data
+    //         })
+    //         .catch(error => {
+    //             console.log("Error fetching api: ", error);
+    //         })
+}
+
+function prefetchNextWord(){
+    if(!nextWordPromise){
+        nextWordPromise = fetch("https://random-word-api.herokuapp.com/word")
+                                .then(res => {
+                                    if (res.ok){
+                                        return res.json();
+                                    }else {
+                                        throw new Error("Error");
+                                    }
+                                })
+                                .then(data => {
+                                    nextWordPromise = null;
+                                    return data;
+                                })
+                                .catch(error => {
+                                    nextWordPromise = null;
+                                    console.log("Error fetching next Word: ", error)
+                                })
+    }
+    return nextWordPromise;
+}
 
 
-//Modal submit Button
-modalSubmitBtn.addEventListener('click', () => {
+async function addWordToDom(){
+    try{
+        const apiWord = await getWordsApi();
+        toMatchWord.innerHTML = apiWord[0];
+        console.log("Added word to DOM: ", apiWord)
+
+        text.addEventListener('input', e => {
+            const insertedText = e.target.value
     
 
-    
-});
+            if (insertedText.trim().toLowerCase() === apiWord[0].toLowerCase()){
+                addWordToDom();
+                updateScore();
 
+            // Clear
+                e.target.value = '';
 
-
-
-
-//Modal container
-function selectAvatar(){
-    avatar.forEach(avatar => {
-        avatar.addEventListener('click', (e) => {
-            const selectedEmoji = e.target.innerHTML;
+                if(difficulty === 'hard'){
+                    time += 2;
             
+                }else if (difficulty === 'medium'){
+                    time += 3;
+                }else {
+                    time += 5;
+            }
 
-            outputEmoji.innerHTML = selectedEmoji;
-            outputEmoji.style.fontSize = '2.5rem'
-            
-        })
+                updateTime();
+            }
+            prefetchNextWord();
     })
-
-    return selectedEmoji;
-
-}
-
-
-//Update username
-function getUsername(e){
-    const user = userNameInput.e.target.value;
-
-    console.log(user)
-}
-
-
-
-
-let counter = 6;
-// Count Down for the user to start playing
-window.addEventListener("DOMContentLoaded", () => {
-   
-   counterToStartGame.classList.add('scale')
-   text.style.display = 'none'
-   const countersInterval = setInterval(() => {
-        
-         counter--;
-        
-        if (counter === 0){
-            clearInterval(countersInterval);
-            text.style.display = 'inline-block'
-            text.focus();
-            counterToStartGame.classList.remove('scale');
-        }
-        counterToStartGame.textContent = `Ready in ${counter}`; 
-    }, 1000);
+        return apiWord;
+    } catch(error) {
+        console.log("Error feting api: ", error)
+    }
     
-})
-
-   
-//Random word API
-
-
-
-
-// List of words for Game
-
-const words = [
-    'sigh',
-    'tense',
-    'airplane',
-    'ball',
-    'pies',
-    'juice',
-    'warlike', 
-    'bad',
-    'north',
-    'dependent',
-    'steer',
-    'silver',
-    'highfalutin',
-    'superficial',
-    'quince',
-    'eight',
-    'feeble',
-    'admit',
-    'drag',
-    'loving',
-    'basketball',
-    'game',
-    'city',
-    'seattle',
-    'Gonzaga',
-    'NBA',
-    'screens',
-    'laptop',
-    'faces',
-    'groups',
-    'parents',
-    'Ramadan',
-    'Islam',
-    'muslims',
-    'kenya'
-];
-
-// Init word
-let randomWord;
-
-//Int score
-let score = 0;
-
-//Init time
-let time = 10;
-
-// Difficulty
-let difficulty = localStorage.getItem('difficulty') !== null ? localStorage.getItem('difficulty') : 'medium';
-
-//set difficulty select value
-difficultySelect.value = localStorage.getItem('difficulty') !== null ? localStorage.getItem('difficulty') : 'medium';
-
-
-
-//Start counting down
-const timeInterval = setInterval(updateTime, 1000);
-
-
-// Genarate Random word from array
-function getRandomWord(){
-    return words[Math.floor(Math.random() * words.length)];
-}
-
-// Add word to Dom
-function addWordToDOm(){
-    randomWord = getRandomWord();
-
-    word.innerHTML = randomWord;
 }
 
 
-function updateScore(){
-    score++;
-    scoreEl.innerHTML = score;
-
-}
-
-//Game over, show end screens
-function gameOver(){
-    let greatJob = 'Wow Nice Job!!';
-    let betterLuck = 'not so great try again.';
-    endgameEl.innerHTML = `
-        <h1>Time ran out!</h1>
-        <P>Your final score is ${score}, ${score > 10 ? greatJob : betterLuck}</p>
-        <button class="relode" onclick="location.reload()">Reload</button>
-    `;
-    endgameEl.style.display = 'flex';
-
-   text.style.display = 'none';
-   word.style.display = 'none';
-}
 
 
-// Update TIme
+
+
+
+
+
+
+
+
+
+
+
+
+
+const matchWord = addWordToDom();
+
+
+
+
 function updateTime(){
 
    setTimeout(() => {
@@ -202,35 +157,121 @@ function updateTime(){
         timeEl.style.color = '';
     }
 }
-addWordToDOm();
+
+//Modal submit Button
+modalSubmitBtn.addEventListener('click', () => {
+    const usersName = getUsername();
+    document.getElementById('user-name').textContent = usersName;
+    
+});
 
 
-// Event Listeners
+//Modal container
+function selectAvatar(){
+    avatar.forEach(avatar => {
+        avatar.addEventListener('click', (e) => {
+            const selectedEmoji = e.target.innerHTML;
+            
 
-// Typing
-text.addEventListener('input', e => {
-    const insertedText = e.target.value
+            outputEmoji.innerHTML = selectedEmoji;
+            outputEmoji.style.fontSize = '2.5rem'
+            
+        })
+    })
 
-        if (insertedText === randomWord){
-            addWordToDOm();
-            updateScore();
+}
 
-            // Clear
-            e.target.value = '';
 
-            if(difficulty === 'hard'){
-                time += 2;
-                
-            }else if (difficulty === 'medium'){
-                time += 3;
-            }else {
-                time += 5;
-            }
+//Update username
+function getUsername(){
+    const user = userNameInput.value;
 
-            updateTime();
+}
+
+let counter = 6;
+// Count Down for the user to start playing
+window.addEventListener("DOMContentLoaded", () => {
+   
+   counterToStartGame.classList.add('scale')
+   text.style.display = 'none'
+   const countersInterval = setInterval(() => {
+        
+         counter--;
+        
+        if (counter === 0){
+            clearInterval(countersInterval);
+            text.style.display = 'inline-block'
+            text.focus();
+            counterToStartGame.classList.remove('scale');
         }
+        counterToStartGame.textContent = `Ready in ${counter}`; 
+    }, 1000);
     
 })
+
+
+// Init word
+let randomWord;
+
+//Int score
+let score = 0;
+
+//Init time
+let time = 10;
+
+// Difficulty
+let difficulty = localStorage.getItem('difficulty') !== null ? localStorage.getItem('difficulty') : 'medium';
+
+//set difficulty select value
+difficultySelect.value = localStorage.getItem('difficulty') !== null ? localStorage.getItem('difficulty') : 'medium';
+
+
+
+//Start counting down
+const timeInterval = setInterval(updateTime, 1000);
+
+
+// Add word to Dom
+// function addWordToDOm(){
+//             getWordsApi()
+//                 .then(wordData => {
+//                 if(word){
+//                     return word.innerHTML = wordData;
+//                 }else {
+//                     console.log("Element with id 'word' not found");
+//                 }
+                    
+//                 })
+//                 .catch(error => {
+//                     console.log("Error adding word to Dom: ", error)
+//                 })
+// }
+
+function updateScore(){
+    score++;
+    scoreEl.innerHTML = score;
+
+}
+
+//Game over, show end screens
+function gameOver(){
+    let greatJob = 'Wow Nice Job!!';
+    let betterLuck = 'not so great try again.';
+    endgameEl.innerHTML = `
+        <h1>Time ran out!</h1>
+        <P>Your final score is ${score}, ${score > 10 ? greatJob : betterLuck}</p>
+        <button class="relode" onClick="relodeGame()">Reload</button>
+    `;
+    
+    
+
+    endgameEl.style.display = 'flex';
+
+   text.style.display = 'none';
+   toMatchWord.style.display = 'none';
+}
+
+
 
 // Settings btn click
 settingsBtn.addEventListener('click', () => settings.classList.toggle('hide'));
@@ -242,11 +283,12 @@ settingsForm.addEventListener('change', e => {
     localStorage.setItem('difficulty', difficulty)
     
 })
+const modal = document.querySelector('.modal-container')
 
 window.addEventListener('click', (e) => {
-    const close = e.target;
-
-    if (!close.classList.contains('.modal-container')){
-        document.querySelector('.modal-container').style.display = 'none';
+    if (e.target === modal){
+        modal.style.display = 'none';
     }
+
+    
 })

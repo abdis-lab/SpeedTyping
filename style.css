@@ -175,7 +175,7 @@ input:focus{
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 100;
-    display: non;
+    display: none;
 }
 .modal-content{
     background-color: #e2e8f0;
